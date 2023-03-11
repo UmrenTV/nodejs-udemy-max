@@ -2,13 +2,17 @@ const path = require("path");
 const express = require("express");
 
 const rootDir = require("../utils/path");
+const adminData = require("./admin");
 
 const router = express.Router();
+const products = adminData.products;
 
 router.get("/", (req, res) => {
-  // __dirname is global variable that holds the absolute path on our PC to where the project is
-  res.sendFile(path.join(rootDir, "views", "shop.html"));
-  // we are using path.join here so this constructs the path in correct forrmat for both Windows and Linux. They have different rules for building paths
+  res.render("shop", {
+    prods: products,
+    pageTitle: "Shop",
+    path: "/",
+  });
 });
 
 module.exports = router;
