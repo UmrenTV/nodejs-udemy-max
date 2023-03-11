@@ -1,0 +1,32 @@
+<%- include('includes/head.ejs') %>
+  <title>Page Not Found</title>
+  </head>
+  <%- include('includes/navigation.ejs') %>
+
+    <body>
+      <% if (usernames.length> 0) { %>
+        <h1>
+          <%= pageTitle %>:
+        </h1>
+        <ul>
+          <% for (let u of usernames) { %>
+            <li>
+              <%= u.user %>
+            </li>
+            <% } %>
+        </ul>
+        <form action="/" method="GET">
+          <p>Add another?</p>
+          <button type="submit">Add!</button>
+        </form>
+        <% } else { %>
+          <h1>No users added yet! :( </h1>
+          <form action="/" method="GET">
+            <span>Add ?
+              <button type="submit"> Sure!</button></span>
+          </form>
+          <% } %>
+
+    </body>
+
+    </html>
