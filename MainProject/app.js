@@ -16,7 +16,7 @@ const bodyParser = require("body-parser"); // This is added so we can render the
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public"))); // this line exposes the public content to the public
 
-app.use("/admin", adminRoutes.router);
+app.use("/admin", adminRoutes.router); // the /admin is the prefix for the admin routes so you don't have to write /admin/products, /admin/whatever like in the admin.js file in the routes folder
 app.use(shopRoutes);
 
 app.use(errorController.get404);
