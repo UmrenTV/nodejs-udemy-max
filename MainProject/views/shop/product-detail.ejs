@@ -1,0 +1,30 @@
+<%- include('../includes/head.ejs') %>
+  </head>
+
+  <body>
+    <%- include('../includes/navigation.ejs') %>
+      <main class="centered">
+        <h1>
+          <%= product.title %>
+        </h1>
+        <hr>
+        <div>
+          <img src="<%= product.imageUrl %>" alt="<%= product.title %>">
+        </div>
+        <hr>
+        <h2>
+          <%= product.price %>
+        </h2>
+        <p>
+          <%= product.description %>
+        </p>
+        <hr>
+        <form action="/cart" method="POST">
+          <button class="btn" type="submit">Add to Cart</button>
+          <%- include('../includes/add-to-cart.ejs') %>
+            <input type="hidden" name="productId" value="<%= product.id %>">
+            <!-- We are using this hidden input, so we can pass the id of the product through the body of the POST request using the name "productId" and the value of the product. This works only for POST requests. (not sure if it works for DELETE, PUT or something) -->
+        </form>
+
+      </main>
+      <%- include('../includes/end.ejs') %>
