@@ -4,6 +4,7 @@ exports.getAddProduct = (req, res, next) => {
   res.render("admin/edit-product", {
     pageTitle: "Add Product",
     path: "/admin/add-product",
+    editing: false,
   });
 };
 
@@ -12,7 +13,8 @@ exports.postAddProduct = (req, res, next) => {
   const imageUrl = req.body.imageUrl;
   const price = req.body.price;
   const description = req.body.description;
-  const product = new Product(title, imageUrl, description, price);
+  const product = new Product((id = null), title, imageUrl, description, price);
+  console.log("PRODUCT ADDED");
   product.save();
   res.redirect("/");
 };
@@ -24,10 +26,49 @@ exports.getEditProduct = (req, res, next) => {
     return res.redirect("/");
   }
   console.log("Edit mode");
-  res.render("admin/edit-product", {
-    pageTitle: "Edit Product",
-    path: "/admin/edit-product",
-    editing: editMode,
+  Product.findById(req.params.productId, (product) => {
+    if (!product) {
+      console.log("Product not found");
+      return res.redirect("/");
+    }
+    console.log("Product found", product);
+    res.render("admin/edit-product", {
+      pageTitle: "Edit Product",
+      path: "/admin/edit-product",
+      editing: editMode,
+      product: product,
+    });
+  });
+  // res.render("admin/edit-product", {
+  //   pageTitle: "Edit Product",
+  //   path: "/admin/edit-product",
+  //   editing: editMode,
+  // });
+};
+
+exports.postEditProduct = (req, res, next) => {
+  const prodId = req.body.productId;
+  const updatedTitle = req.body.title;
+  const updatedPrice = req.body.price;
+  const updatedImageUrl = req.body.imageUrl;
+  const updatedDesc = req.body.description;
+  const updatedProduct = new Product(
+    prodId,
+    updatedTitle,
+    updatedImageUrl,
+    updatedDesc,
+    updatedPrice
+  );
+  console.log("UPDATED PRODUCT");
+  updatedProduct.save();
+  res.redirect("/admin/products");
+};
+
+exports.postDeleteProduct = (req, res, next) => {
+  const prodId = req.body.productId;
+  Product.deleteById(prodId, () => {
+    res.redirect("/admin/products");
+    console.log("PRODUCT DELETED");
   });
 };
 
